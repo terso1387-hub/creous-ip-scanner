@@ -1,406 +1,380 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>CREOUS // IP SCANNER</title>  <style>  
+* {  
+  box-sizing: border-box;  
+}  
+  
+body {  
+  margin: 0;  
+  min-height: 100vh;  
+  background:  
+    radial-gradient(circle at center, #071a12 0%, #020806 45%, #000 100%);  
+  color: #00ff88;  
+  font-family: "Courier New", monospace;  
+  display: flex;  
+  justify-content: center;  
+  align-items: center;  
+  overflow-x: hidden;  
+}  
+  
+body::before {  
+  content: "";  
+  position: fixed;  
+  inset: 0;  
+  pointer-events: none;  
+  background: repeating-linear-gradient(  
+    0deg,  
+    rgba(0,255,120,.025),  
+    rgba(0,255,120,.025) 1px,  
+    transparent 1px,  
+    transparent 4px  
+  );  
+}  
+  
+.container {  
+  width: 92%;  
+  max-width: 700px;  
+}  
+  
+.header {  
+  text-align: center;  
+  margin-bottom: 25px;  
+}  
+  
+.small {  
+  color: #00aa5c;  
+  font-size: 12px;  
+  letter-spacing: 5px;  
+}  
+  
+h1 {  
+  margin: 8px 0;  
+  font-size: clamp(30px, 7vw, 55px);  
+  text-shadow:  
+    0 0 5px #00ff88,  
+    0 0 20px #00ff88;  
+}  
+  
+.subtitle {  
+  color: #4caf7d;  
+  font-size: 13px;  
+}  
+  
+.terminal {  
+  background: rgba(0, 15, 9, .92);  
+  border: 1px solid #00ff88;  
+  border-radius: 8px;  
+  box-shadow:  
+    0 0 10px rgba(0,255,136,.35),  
+    inset 0 0 30px rgba(0,255,136,.04);  
+  overflow: hidden;  
+}  
+  
+.bar {  
+  height: 35px;  
+  display: flex;  
+  align-items: center;  
+  padding: 0 12px;  
+  background: #03150c;  
+  border-bottom: 1px solid #07552f;  
+  color: #008f50;  
+  font-size: 12px;  
+}  
+  
+.dot {  
+  width: 9px;  
+  height: 9px;  
+  border-radius: 50%;  
+  background: #00ff88;  
+  margin-right: 7px;  
+  box-shadow: 0 0 8px #00ff88;  
+}  
+  
+.content {  
+  padding: 25px;  
+}  
+  
+.prompt {  
+  color: #00ff88;  
+  margin-bottom: 10px;  
+}  
+  
+input {  
+  width: 100%;  
+  padding: 15px;  
+  background: #000b06;  
+  border: 1px solid #087541;  
+  border-radius: 5px;  
+  outline: none;  
+  color: #00ff88;  
+  font-family: inherit;  
+  font-size: 15px;  
+  caret-color: #00ff88;  
+}  
+  
+input:focus {  
+  border-color: #00ff88;  
+  box-shadow: 0 0 12px rgba(0,255,136,.25);  
+}  
+  
+.buttons {  
+  display: flex;  
+  gap: 10px;  
+  margin-top: 12px;  
+}  
+  
+button {  
+  flex: 1;  
+  padding: 14px;  
+  border: 1px solid #00ff88;  
+  background: #002b18;  
+  color: #00ff88;  
+  font-family: inherit;  
+  font-weight: bold;  
+  cursor: pointer;  
+  border-radius: 5px;  
+}  
+  
+button:hover {  
+  background: #00ff88;  
+  color: #001108;  
+  box-shadow: 0 0 18px rgba(0,255,136,.5);  
+}  
+  
+#result {  
+  margin-top: 25px;  
+}  
+  
+.status {  
+  color: #00c96b;  
+  margin-bottom: 12px;  
+}  
+  
+.item {  
+  padding: 11px 0;  
+  border-bottom: 1px solid #073b25;  
+  display: flex;  
+  justify-content: space-between;  
+  gap: 15px;  
+}  
+  
+.label {  
+  color: #008f50;  
+}  
+  
+.value {  
+  color: #d0ffe5;  
+  text-align: right;  
+  word-break: break-word;  
+}  
+  
+.error {  
+  color: #ff4d6d;  
+}  
+  
+.scan {  
+  animation: blink .7s infinite;  
+}  
+  
+@keyframes blink {  
+  50% {  
+    opacity: .35;  
+  }  
+}  
+  
+.footer {  
+  text-align: center;  
+  margin-top: 15px;  
+  color: #075f38;  
+  font-size: 11px;  
+}  
+</style>  </head>  <body>  <div class="container">    <div class="header">  
+    <div class="small">CREOUS SALAMANCA // SYSTEM ONLINE</div>  
+    <h1>IP SCANNER</h1>  
+    <div class="subtitle">  
+      APPROXIMATE IP GEOLOCATION TERMINAL  
+    </div>  
+  </div>    <div class="terminal">  <div class="bar">  
+  <div class="dot"></div>  
+  CREOUS_TERMINAL.exe  
+</div>  
 
-<title>CREOUS // IP SCANNER</title>
+<div class="content">  
 
-<style>
-* {
-  box-sizing: border-box;
-}
+  <div class="prompt">  
+    root@creous:~$ enter_target_ip  
+  </div>  
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at center, #071a12 0%, #020806 45%, #000 100%);
-  color: #00ff88;
-  font-family: "Courier New", monospace;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-x: hidden;
-}
+  <input  
+    id="ipInput"  
+    type="text"  
+    placeholder="192.168.1.1"  
+    autocomplete="off"  
+  >  
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0,255,120,.025),
-    rgba(0,255,120,.025) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-}
+  <div class="buttons">  
+    <button onclick="findLocation()">[ SCAN IP ]</button>  
+    <button onclick="myIP()">[ MY IP ]</button>  
+  </div>  
 
-.container {
-  width: 92%;
-  max-width: 700px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.small {
-  color: #00aa5c;
-  font-size: 12px;
-  letter-spacing: 5px;
-}
-
-h1 {
-  margin: 8px 0;
-  font-size: clamp(30px, 7vw, 55px);
-  text-shadow:
-    0 0 5px #00ff88,
-    0 0 20px #00ff88;
-}
-
-.subtitle {
-  color: #4caf7d;
-  font-size: 13px;
-}
-
-.terminal {
-  background: rgba(0, 15, 9, .92);
-  border: 1px solid #00ff88;
-  border-radius: 8px;
-  box-shadow:
-    0 0 10px rgba(0,255,136,.35),
-    inset 0 0 30px rgba(0,255,136,.04);
-  overflow: hidden;
-}
-
-.bar {
-  height: 35px;
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  background: #03150c;
-  border-bottom: 1px solid #07552f;
-  color: #008f50;
-  font-size: 12px;
-}
-
-.dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #00ff88;
-  margin-right: 7px;
-  box-shadow: 0 0 8px #00ff88;
-}
-
-.content {
-  padding: 25px;
-}
-
-.prompt {
-  color: #00ff88;
-  margin-bottom: 10px;
-}
-
-input {
-  width: 100%;
-  padding: 15px;
-  background: #000b06;
-  border: 1px solid #087541;
-  border-radius: 5px;
-  outline: none;
-  color: #00ff88;
-  font-family: inherit;
-  font-size: 15px;
-  caret-color: #00ff88;
-}
-
-input:focus {
-  border-color: #00ff88;
-  box-shadow: 0 0 12px rgba(0,255,136,.25);
-}
-
-.buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-button {
-  flex: 1;
-  padding: 14px;
-  border: 1px solid #00ff88;
-  background: #002b18;
-  color: #00ff88;
-  font-family: inherit;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button:hover {
-  background: #00ff88;
-  color: #001108;
-  box-shadow: 0 0 18px rgba(0,255,136,.5);
-}
-
-#result {
-  margin-top: 25px;
-}
-
-.status {
-  color: #00c96b;
-  margin-bottom: 12px;
-}
-
-.item {
-  padding: 11px 0;
-  border-bottom: 1px solid #073b25;
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-}
-
-.label {
-  color: #008f50;
-}
-
-.value {
-  color: #d0ffe5;
-  text-align: right;
-  word-break: break-word;
-}
-
-.error {
-  color: #ff4d6d;
-}
-
-.scan {
-  animation: blink .7s infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: .35;
-  }
-}
-
-.footer {
-  text-align: center;
-  margin-top: 15px;
-  color: #075f38;
-  font-size: 11px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <div class="header">
-    <div class="small">CREOUS SALAMANCA // SYSTEM ONLINE</div>
-    <h1>IP SCANNER</h1>
-    <div class="subtitle">
-      APPROXIMATE IP GEOLOCATION TERMINAL
-    </div>
-  </div>
-
-  <div class="terminal">
-
-    <div class="bar">
-      <div class="dot"></div>
-      CREOUS_TERMINAL.exe
-    </div>
-
-    <div class="content">
-
-      <div class="prompt">
-        root@creous:~$ enter_target_ip
-      </div>
-
-      <input
-        id="ipInput"
-        type="text"
-        placeholder="192.168.1.1"
-        autocomplete="off"
-      >
-
-      <div class="buttons">
-        <button onclick="findLocation()">[ SCAN IP ]</button>
-        <button onclick="myIP()">[ MY IP ]</button>
-      </div>
-
-      <div id="result"></div>
-
-    </div>
-
-  </div>
-
-  <div class="footer">
-    CREOUS NETWORK INTELLIGENCE // PUBLIC IP DATA ONLY
-  </div>
+  <div id="result"></div>  
 
 </div>
 
-<script>
-
-async function findLocation(ipOverride = null) {
-
-  const input = document.getElementById("ipInput");
-  const result = document.getElementById("result");
-
-  const ip = (ipOverride || input.value).trim();
-
-  if (!ip) {
-    result.innerHTML =
-      '<p class="error">[ERROR] No target IP entered.</p>';
-    return;
-  }
-
-  result.innerHTML = `
-    <div class="status scan">
-      [*] Initializing scanner...<br>
-      [*] Querying public IP database...<br>
-      [*] Resolving target...
-    </div>
-  `;
-
-  try {
-
-    const response = await fetch(
-      "https://ipapi.co/" +
-      encodeURIComponent(ip) +
-      "/json/"
-    );
-
-    if (!response.ok)
-      throw new Error("Request failed");
-
-    const data = await response.json();
-
-    if (data.error) {
-      result.innerHTML =
-        '<p class="error">[ERROR] Invalid IP address.</p>';
-      return;
-    }
-
-    result.innerHTML = `
-      <div class="status">
-        [+] TARGET RESOLVED
-      </div>
-
-      <div class="item">
-        <span class="label">IP</span>
-        <span class="value">${safe(data.ip)}</span>
-      </div>
-
-      <div class="item">
-        <span class="label">COUNTRY</span>
-        <span class="value">${safe(data.country_name)}</span>
-      </div>
-
-      <div class="item">
-        <span class="label">CITY</span>
-        <span class="value">${safe(data.city)}</span>
-      </div>
-
-      <div class="item">
-        <span class="label">REGION</span>
-        <span class="value">${safe(data.region)}</span>
-      </div>
-
-      <div class="item">
-        <span class="label">POSTAL</span>
-        <span class="value">${safe(data.postal)}</span>
-      </div>
-
-      <div class="item">
-        <span class="label">ISP / ORG</span>
-        <span class="value">${safe(data.org)}</span>
-      </div>
-
-      <div class="item">
-        <span class="label">LATITUDE</span>
-        <span class="value">${safe(data.latitude)}</span>
-      </div>
-
-      <div class="item">
-        <span class="label">LONGITUDE</span>
-        <span class="value">${safe(data.longitude)}</span>
-      </div>
-
-      <div class="status" style="margin-top:15px">
-        [+] Scan complete.
-      </div>
-    `;
-
-  } catch (error) {
-
-    result.innerHTML =
-      '<p class="error">[ERROR] Could not retrieve IP information.</p>';
-
-  }
-}
-
-async function myIP() {
-
-  const result = document.getElementById("result");
-
-  result.innerHTML =
-    '<div class="status scan">[*] Detecting your public IP...</div>';
-
-  try {
-
-    const response = await fetch(
-      "https://api.ipify.org?format=json"
-    );
-
-    const data = await response.json();
-
-    document.getElementById("ipInput").value = data.ip;
-
-    findLocation(data.ip);
-
-  } catch {
-
-    result.innerHTML =
-      '<p class="error">[ERROR] Could not detect public IP.</p>';
-
-  }
-}
-
-function safe(value) {
-
-  if (value === null || value === undefined || value === "") {
-    return "UNKNOWN";
-  }
-
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-document
-  .getElementById("ipInput")
-  .addEventListener("keydown", function(event) {
-
-    if (event.key === "Enter") {
-      findLocation();
-    }
-
-  });
-
-</script>
-
-</body>
-</html>
-
-Bunu "index.html" diye kaydet → tarayıcıda aç. "SCAN IP" ile girdiğin IP'nin yaklaşık konumunu, "MY IP" ile de kendi public IP adresini sorgular. IP geolocation kesin adres göstermez; şehir/koordinat bilgisi yaklaşık olabilir.
+  </div>    <div class="footer">  
+    CREOUS NETWORK INTELLIGENCE // PUBLIC IP DATA ONLY  
+  </div>  </div>  <script>  
+  
+async function findLocation(ipOverride = null) {  
+  
+  const input = document.getElementById("ipInput");  
+  const result = document.getElementById("result");  
+  
+  const ip = (ipOverride || input.value).trim();  
+  
+  if (!ip) {  
+    result.innerHTML =  
+      '<p class="error">[ERROR] No target IP entered.</p>';  
+    return;  
+  }  
+  
+  result.innerHTML = `  
+    <div class="status scan">  
+      [*] Initializing scanner...<br>  
+      [*] Querying public IP database...<br>  
+      [*] Resolving target...  
+    </div>  
+  `;  
+  
+  try {  
+  
+    const response = await fetch(  
+      "https://ipapi.co/" +  
+      encodeURIComponent(ip) +  
+      "/json/"  
+    );  
+  
+    if (!response.ok)  
+      throw new Error("Request failed");  
+  
+    const data = await response.json();  
+  
+    if (data.error) {  
+      result.innerHTML =  
+        '<p class="error">[ERROR] Invalid IP address.</p>';  
+      return;  
+    }  
+  
+    result.innerHTML = `  
+      <div class="status">  
+        [+] TARGET RESOLVED  
+      </div>  
+  
+      <div class="item">  
+        <span class="label">IP</span>  
+        <span class="value">${safe(data.ip)}</span>  
+      </div>  
+  
+      <div class="item">  
+        <span class="label">COUNTRY</span>  
+        <span class="value">${safe(data.country_name)}</span>  
+      </div>  
+  
+      <div class="item">  
+        <span class="label">CITY</span>  
+        <span class="value">${safe(data.city)}</span>  
+      </div>  
+  
+      <div class="item">  
+        <span class="label">REGION</span>  
+        <span class="value">${safe(data.region)}</span>  
+      </div>  
+  
+      <div class="item">  
+        <span class="label">POSTAL</span>  
+        <span class="value">${safe(data.postal)}</span>  
+      </div>  
+  
+      <div class="item">  
+        <span class="label">ISP / ORG</span>  
+        <span class="value">${safe(data.org)}</span>  
+      </div>  
+  
+      <div class="item">  
+        <span class="label">LATITUDE</span>  
+        <span class="value">${safe(data.latitude)}</span>  
+      </div>  
+  
+      <div class="item">  
+        <span class="label">LONGITUDE</span>  
+        <span class="value">${safe(data.longitude)}</span>  
+      </div>  
+  
+      <div class="status" style="margin-top:15px">  
+        [+] Scan complete.  
+      </div>  
+    `;  
+  
+  } catch (error) {  
+  
+    result.innerHTML =  
+      '<p class="error">[ERROR] Could not retrieve IP information.</p>';  
+  
+  }  
+}  
+  
+async function myIP() {  
+  
+  const result = document.getElementById("result");  
+  
+  result.innerHTML =  
+    '<div class="status scan">[*] Detecting your public IP...</div>';  
+  
+  try {  
+  
+    const response = await fetch(  
+      "https://api.ipify.org?format=json"  
+    );  
+  
+    const data = await response.json();  
+  
+    document.getElementById("ipInput").value = data.ip;  
+  
+    findLocation(data.ip);  
+  
+  } catch {  
+  
+    result.innerHTML =  
+      '<p class="error">[ERROR] Could not detect public IP.</p>';  
+  
+  }  
+}  
+  
+function safe(value) {  
+  
+  if (value === null || value === undefined || value === "") {  
+    return "UNKNOWN";  
+  }  
+  
+  return String(value)  
+    .replaceAll("&", "&amp;")  
+    .replaceAll("<", "&lt;")  
+    .replaceAll(">", "&gt;")  
+    .replaceAll('"', "&quot;")  
+    .replaceAll("'", "&#039;");  
+}  
+  
+document  
+  .getElementById("ipInput")  
+  .addEventListener("keydown", function(event) {  
+  
+    if (event.key === "Enter") {  
+      findLocation();  
+    }  
+  
+  });  
+  
+</script>  </body>  
+</html>  Bunu "index.html" diye kaydet → tarayıcıda aç. "SCAN IP" ile girdiğin IP'nin yaklaşık konumunu, "MY IP" ile de kendi public IP adresini sorgular. IP geolocation kesin adres göstermez; şehir/koordinat bilgisi yaklaşık olabilir.
